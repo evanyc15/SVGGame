@@ -4,27 +4,22 @@
 
 $(document).ready(function(){
     var svgPlants = $('.svgPlants');
-    var svgGroundWaterPlat = $('.svgGroundWaterPlat');
+    var svgsmallRock = $('.svgsmallRock');
+    var svgrockGroup = $('.svgrockGroup');
     var svgBiker = $('#svgBiker');
     var svgGroundDirt = $('#svgGroundDirt');
     var svgGroundRoad = $('#svgGroundRoad');
     var svgGroundFound = $('#svgGroundFound');
-    var svgGroundWater = $('#svgGroundWater');
     var gameData = {
         plantInterval: 50,
-        terrainInterval: 1000,
-        ground: true,
-        water: false,
         svgPlantsOrigAttr: [],
-        svgGroundWaterPlatOrigAttr: [],
         svgBikeOrigAttr: {
             x: $(svgBiker).attr('x'),
             y: $(svgBiker).attr('y')
-        }
+        },
+        svgsmallRockOrigAttr: [],
+        svgrockGroupAttr: []
     };
-
-    var terrainInterval;
-    var terrainTimeout;
 
     for(var a = 0; a < svgPlants.length; a++){
         gameData.svgPlantsOrigAttr[a] = {
@@ -32,11 +27,17 @@ $(document).ready(function(){
             y: $(svgPlants[a]).attr('y')
         };
     }
-    for(var b = 0; b < svgGroundWaterPlat.length; b++){
-        gameData.svgGroundWaterPlatOrigAttr[b] = {
-            x: $(svgGroundWaterPlat[b]).attr('x'),
-            y: $(svgGroundWaterPlat[b]).attr('y')
-        };
+    for(var a = 0; a < svgsmallRock.length; a++){
+        gameData.svgsmallRockOrigAttr[a] = {
+            x: $(svgsmallRock[a]).attr('x'),
+            y: $(svgsmallRock[a]).attr('y')
+        }
+    }
+    for(var a = 0; a < svgrockGroup.length; a++){
+        gameData.svgrockGroupAttr[a] = {
+            x: $(svgrockGroup[a]).attr('x'),
+            y: $(svgrockGroup[a]).attr('y')
+        }
     }
     setInterval(function(){
         for(var i = 0; i < svgPlants.length; i++) {
@@ -47,46 +48,23 @@ $(document).ready(function(){
                 $(svgPlants[i]).attr('x', xCoord - 10);
             }
         }
-    }, gameData.plantInterval);
-    setInterval(function(){
-        // This is to show water
-        if(gameData.ground && !gameData.water){
-
-            gameData.ground = false;
-            gameData.water = true;
-
-            terrainTimeout = setTimeout(function(){
-
-                svgGroundWater.show();
-                svgGroundWaterPlat.show();
-                terrainInterval = setInterval(function(){
-                    if(parseInt(svgGroundWater.attr('x')) < -1000) {
-                        svgGroundWater.attr('x', 1000);
-                        svgGroundWater.hide();
-                        clearInterval(terrainInterval);
-                        clearTimeout(terrainTimeout);
-
-                        setTimeout(function(){
-                            gameData.ground = true;
-                            gameData.water = false;
-                        }, 3000);
-                    } else {
-                        svgGroundWater.attr('x', parseInt(svgGroundWater.attr('x')) - 10);
-                        for(var j = 0; j < svgGroundWaterPlat.length; j++) {
-                            var xCoordW = $(svgGroundWaterPlat[j]).attr('x');
-
-                            if(xCoordW < -300){
-                                $(svgGroundWaterPlat[j]).attr('x', parseInt(gameData.svgGroundWaterPlatOrigAttr[j].x));
-                                $(svgGroundWaterPlat[j]).hide();
-                            } else {
-                                $(svgGroundWaterPlat[j]).attr('x', xCoordW - 10);
-                            }
-                        }
-                    }
-                }, gameData.plantInterval);
-            }, 3000);
+        for(var i = 0; i < svgsmallRock.length; i++) {
+            var xCoords = $(svgsmallRock[i]).attr('x');
+            if(xCoords < -300){
+                $(svgsmallRock[i]).attr('x', parseInt(gameData.svgsmallRockOrigAttr[i].x));
+            } else {
+                $(svgsmallRock[i]).attr('x', xCoords - 10);
+            }
         }
-    }, gameData.terrainInterval);
+        for(var i = 0; i < svgrockGroup.length; i++) {
+            var xCoordg = $(svgrockGroup[i]).attr('x');
+            if(xCoordg < -300){
+                $(svgrockGroup[i]).attr('x', parseInt(gameData.svgrockGroupAttr[i].x));
+            } else {
+                $(svgrockGroup[i]).attr('x', xCoordg - 10);
+            }
+        }
+    }, gameData.plantInterval);
 
     $("#jumpButton").on("click", function(){
         $(svgBiker).attr('y', gameData.svgBikeOrigAttr.y-10);
