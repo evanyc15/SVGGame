@@ -38,6 +38,25 @@ $(document).ready(function(){
         }
     }, gameData.plantInterval);
 
+    d3.select('#svgContainer').append('image')
+        .attr('class', 'svgsmallRock')
+        .attr('id', 'svgsmallRock'+gameData.rockCounter)
+        .attr('xlink:href', 'assets/img/smallRock.png')
+        .attr('width', '30px')
+        .attr('height', '30px')
+        .attr('x', 1150)
+        .attr('y', 480);
+    d3.select('#svgContainer').append('image')
+        .attr('class', 'svgrockGroup')
+        .attr('id', 'svgrockGroup'+gameData.rockCounter)
+        .attr('xlink:href', 'assets/img/rockGroup.png')
+        .attr('width', '40px')
+        .attr('height', '45px')
+        .attr('x', 1750)
+        .attr('y', 470);
+
+    gameData.rockCounter++;
+
     var rockMakeInterval = setInterval(function(){
 
         //var svgsmallRockHTML = '<image class="svgsmallRock" xlink:href="assets/img/smallRock.png" width="30px" height="30px" x="1150" y="480"/>';
@@ -55,7 +74,7 @@ $(document).ready(function(){
             .attr('class', 'svgrockGroup')
             .attr('id', 'svgrockGroup'+gameData.rockCounter)
             .attr('xlink:href', 'assets/img/rockGroup.png')
-            .attr('width', '45px')
+            .attr('width', '40px')
             .attr('height', '45px')
             .attr('x', 1750)
             .attr('y', 470);
@@ -75,14 +94,17 @@ $(document).ready(function(){
             } else {
                 $($('.svgsmallRock')[i]).attr('x', xsCoord - 10);
                 var bikerX1 = parseInt(d3.select('#svgBiker').attr('x'));
-                var bikerX2 = bikerX1 + 190;
+                var bikerX2 = bikerX1 + 175;
                 var bikerY = parseInt(d3.select('#svgBiker').attr('y')) + 140;
 
-                // Biker is on top of rock here
-                if(parseInt($($('.svgsmallRock')[i]).attr('x')) < bikerX2 &&  parseInt($($('.svgsmallRock')[i]).attr('x'))+35 > bikerX1){
+                // Biker is on top of rock here, reduced to 10/30 for some leeway
+                if(parseInt($($('.svgsmallRock')[i]).attr('x'))+15 < bikerX2 &&  parseInt($($('.svgsmallRock')[i]).attr('x'))+25 > bikerX1){
 
                     if(bikerY <= parseInt($($('.svgsmallRock')[i]).attr('y'))+25 && bikerY > parseInt($($('.svgsmallRock')[i]).attr('y'))){
-                        console.log("HITTING SMALL ROCK!!");
+                        clearInterval(plantInterval);
+                        clearInterval(rockMakeInterval);
+                        clearInterval(rockMoveInterval);
+                        $("#crashContainer").show();
                     }
                 }
             }
@@ -97,15 +119,18 @@ $(document).ready(function(){
             } else {
                 $($('.svgrockGroup')[i]).attr('x', xrCoord - 10);
                 var bikerX1 = parseInt(d3.select('#svgBiker').attr('x'));
-                var bikerX2 = bikerX1 + 190;
+                var bikerX2 = bikerX1 + 175;
                 var bikerY = parseInt(d3.select('#svgBiker').attr('y')) + 140;
 
 
                 // Biker is on top of rock here
-                if(parseInt($($('.svgrockGroup')[i]).attr('x')) < bikerX2 &&  parseInt($($('.svgrockGroup')[i]).attr('x'))+45 > bikerX1){
+                if(parseInt($($('.svgrockGroup')[i]).attr('x'))+15 < bikerX2 &&  parseInt($($('.svgrockGroup')[i]).attr('x'))+30 > bikerX1){
 
                     if(bikerY <= parseInt($($('.svgrockGroup')[i]).attr('y'))+35 && bikerY > parseInt($($('.svgrockGroup')[i]).attr('y'))){
-                        console.log("HITTING BIG ROCK!!");
+                        clearInterval(plantInterval);
+                        clearInterval(rockMakeInterval);
+                        clearInterval(rockMoveInterval);
+                        $("#crashContainer").show();
                     }
                 }
             }
@@ -115,16 +140,16 @@ $(document).ready(function(){
     $("#jumpButton").on("click", function(){
 
         if(parseInt(d3.select('#svgBiker').attr('y')) === parseInt(gameData.svgBikeOrigAttr.y)){
-            d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-30);
+            d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-35);
             setTimeout(function(){
                 d3.select('#svgBiker').attr("xlink:href", "assets/img/BikingUp.png");
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-25);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-30);
             },100);
             setTimeout(function(){
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-20);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-25);
             },200);
             setTimeout(function(){
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-15);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-20);
             },300);
             setTimeout(function(){
                 d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-15);
@@ -139,19 +164,22 @@ $(document).ready(function(){
                 d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+15);
             },700);
             setTimeout(function(){
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+15);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+20);
             },800);
             setTimeout(function(){
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+20);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+25);
             },900);
             setTimeout(function(){
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+25);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+30);
             },1000);
             setTimeout(function(){
                 d3.select('#svgBiker').attr("xlink:href", "assets/img/BikingPush.png");
-                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+30);
+                d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+35);
             },1100);
             d3.select('#svgBiker').attr("xlink:href", "assets/img/BikingReg.png");
         }
+    });
+    $("#restartGame").on("click", function(){
+        location.reload();
     });
 });

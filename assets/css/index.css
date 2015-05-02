@@ -5,8 +5,8 @@
 }
 #jumpButton {
     position: absolute;
-    top: 575px;
-    left: 8px;
+    top: 558px;
+    left: 858px;
     z-index: 99;
     width: 150px;
     height: 50px;
@@ -30,4 +30,22 @@
 #svgGroundFound {
     stroke:rgb(139,69,19);
     fill: rgb(76, 138, 84);
+}
+#crashContainer {
+    position: absolute;
+    margin: 0;
+    width: 1000px;
+    height: 600px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 250px;
+    background-color: rgba(235, 235, 235, 0.98);
+    display: none;
+    z-index: 100;
+}
+#restartGame {
+    width: 150px;
+    height: 50px;
+    background-color: rgb(28, 123, 251);
+    color: white;
 }
