@@ -19,6 +19,8 @@ $(document).ready(function(){
             y: $(svgBiker).attr('y')
         }
     };
+    var jumpAudio = new Audio('assets/audio/Jumping.mp3');
+    var crashAudio = new Audio('assets/audio/Crash.mp3');
 
     for(var a = 0; a < svgPlants.length; a++){
         gameData.svgPlantsOrigAttr[a] = {
@@ -104,6 +106,7 @@ $(document).ready(function(){
                         clearInterval(plantInterval);
                         clearInterval(rockMakeInterval);
                         clearInterval(rockMoveInterval);
+                        crashAudio.play();
                         $("#crashContainer").show();
                     }
                 }
@@ -130,6 +133,7 @@ $(document).ready(function(){
                         clearInterval(plantInterval);
                         clearInterval(rockMakeInterval);
                         clearInterval(rockMoveInterval);
+                        crashAudio.play();
                         $("#crashContainer").show();
                     }
                 }
@@ -137,9 +141,14 @@ $(document).ready(function(){
         }
     }, gameData.plantInterval);
 
+    $(document).keypress(function(e) {
+        if(e.which == 32) {
+            $("#jumpButton").click();
+        }
+    });
     $("#jumpButton").on("click", function(){
-
         if(parseInt(d3.select('#svgBiker').attr('y')) === parseInt(gameData.svgBikeOrigAttr.y)){
+            jumpAudio.play();
             d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-35);
             setTimeout(function(){
                 d3.select('#svgBiker').attr("xlink:href", "assets/img/BikingUp.png");

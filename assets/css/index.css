@@ -3,6 +3,13 @@
     margin: 0;
     background-color: rgba(126, 192, 238, 0.9);
 }
+#gameDescr {
+    position: absolute;
+    width: 500px;
+    height: 15px;
+    padding: 10px;
+    background-color: rgba(245, 245, 245, 0.9);
+}
 #jumpButton {
     position: absolute;
     top: 558px;
