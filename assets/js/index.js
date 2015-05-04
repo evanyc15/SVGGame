@@ -17,7 +17,9 @@ $(document).ready(function(){
         svgBikeOrigAttr: {
             x: $(svgBiker).attr('x'),
             y: $(svgBiker).attr('y')
-        }
+        },
+        score: 0,
+        topScore: 0
     };
     var jumpAudio = new Audio('assets/audio/Jumping.mp3');
     var crashAudio = new Audio('assets/audio/Crash.mp3');
@@ -58,6 +60,13 @@ $(document).ready(function(){
         .attr('y', 470);
 
     gameData.rockCounter++;
+
+    $(".topScore span").text(gameData.topScore);
+
+    var scoreInterval = setInterval(function(){
+        $(".score span").text(gameData.score);
+        gameData.score++;
+    }, 10);
 
     var rockMakeInterval = setInterval(function(){
 
@@ -103,9 +112,14 @@ $(document).ready(function(){
                 if(parseInt($($('.svgsmallRock')[i]).attr('x'))+15 < bikerX2 &&  parseInt($($('.svgsmallRock')[i]).attr('x'))+25 > bikerX1){
 
                     if(bikerY <= parseInt($($('.svgsmallRock')[i]).attr('y'))+25 && bikerY > parseInt($($('.svgsmallRock')[i]).attr('y'))){
+                        clearInterval(scoreInterval);
                         clearInterval(plantInterval);
                         clearInterval(rockMakeInterval);
                         clearInterval(rockMoveInterval);
+                        if(gameData.score > gameData.topScore){
+                            gameData.topScore = gameData.score-1;
+                        }
+                        $(".topScore span").text(gameData.topScore);
                         crashAudio.play();
                         $("#crashContainer").show();
                     }
@@ -130,9 +144,14 @@ $(document).ready(function(){
                 if(parseInt($($('.svgrockGroup')[i]).attr('x'))+15 < bikerX2 &&  parseInt($($('.svgrockGroup')[i]).attr('x'))+30 > bikerX1){
 
                     if(bikerY <= parseInt($($('.svgrockGroup')[i]).attr('y'))+35 && bikerY > parseInt($($('.svgrockGroup')[i]).attr('y'))){
+                        clearInterval(scoreInterval);
                         clearInterval(plantInterval);
                         clearInterval(rockMakeInterval);
                         clearInterval(rockMoveInterval);
+                        if(gameData.score > gameData.topScore){
+                            gameData.topScore = gameData.score-1;
+                        }
+                        $(".topScore span").text(gameData.topScore);
                         crashAudio.play();
                         $("#crashContainer").show();
                     }
@@ -167,6 +186,7 @@ $(document).ready(function(){
                 d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))-15);
             },500);
             setTimeout(function(){
+                gameData.score += 200;
                 d3.select('#svgBiker').attr('y', parseInt(d3.select('#svgBiker').attr('y'))+15);
             },600);
             setTimeout(function(){
